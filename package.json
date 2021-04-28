@@ -15,12 +15,21 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install",
+    "format": "prettier --write .",
+    "lint": "prettier --check .",
+    "lint-staged": "lint-staged"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,scss,md}": [
+      "prettier --write"
     ]
   },
   "browserslist": {
@@ -38,7 +47,10 @@
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
+    "husky": "^6.0.0",
     "jest": "^26.6.0",
-    "jest-enzyme": "^7.1.2"
+    "jest-enzyme": "^7.1.2",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
   }
 }
