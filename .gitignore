@@ -10,6 +10,8 @@
 
 # production
 /build
+docs
+styleguide
 
 # misc
 .DS_Store
@@ -24,4 +26,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # files
-package.lock.json
+package-lock.json
