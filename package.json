@@ -20,7 +20,7 @@
     "format": "prettier --write .",
     "lint": "prettier --check .",
     "lint-staged": "lint-staged",
-    "docs": "jsdoc -c jsdoc.conf.json"
+    "doc": "jsdoc -c jsdoc.conf.json"
   },
   "eslintConfig": {
     "extends": [

@@ -5,18 +5,22 @@
   },
   "source": {
     "include": ["src"],
-    "includePattern": ".+\\.js(doc|x)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs)"
   },
   "plugins": ["plugins/markdown", "better-docs/component"],
   "templates": {
     "better-docs": {
-      "name": "My React components"
-    }
+      "name": "React Pleasant Test"
+    },
+    "cleverLinks": true,
+    "monospaceLinks": true
   },
   "opts": {
-    "destination": "docs",
     "recurse": true,
-    "readme": "README.md"
+    "destination": "./docs/",
+    "tutorials": "./tutorials",
+    "template": "./template",
+    "readme": "./README.md"
   }
 }
