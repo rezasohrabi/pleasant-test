@@ -1,8 +1,4 @@
 {
-  "tags": {
-    "allowUnknownTags": true,
-    "dictionaries": ["jsdoc", "closure"]
-  },
   "source": {
     "include": ["src"],
     "includePattern": ".js$",
@@ -13,14 +9,13 @@
     "better-docs": {
       "name": "React Pleasant Test"
     },
-    "cleverLinks": true,
-    "monospaceLinks": true
+    "cleverLinks": true
   },
   "opts": {
     "recurse": true,
     "destination": "./docs/",
     "tutorials": "./tutorials",
-    "template": "./template",
+    "template": "node_modules/better-docs",
     "readme": "./README.md"
   }
 }
