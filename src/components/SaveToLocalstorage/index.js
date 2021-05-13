@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const SaveToLocalstorage = () => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState('');
   const handleChange = () => {
     localStorage.setItem('name', value);
   };
