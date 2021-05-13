@@ -1,0 +1,35 @@
+%flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  @extend %flex-column;
+  .form-control {
+    @extend %flex-column;
+    min-height: 63px;
+    margin-bottom: 0.8em;
+    input {
+      padding: 1em 2em;
+      border: 1px solid transparent;
+      background-color: #e9e9e9;
+      border-radius: 5px;
+    }
+    input.has-error {
+      border-color: #ee3333;
+    }
+    .error {
+      color: #ee3333;
+      margin: 0;
+      display: inline;
+    }
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    padding: 1.2em 2em;
+    background-color: #333333;
+    color: #e2e2e2;
+    text-transform: uppercase;
+  }
+}
