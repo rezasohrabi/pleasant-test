@@ -1,42 +1,42 @@
 {
-    "users": [
-        {
-            "id": "a",
-            "name": "michael"
-        },
-        {
-            "id": "b",
-            "name": "david"
-        },
-        {
-            "id": "c",
-            "name": "jack"
-        },
-        {
-            "id": "d",
-            "name": "john"
-        }
-    ],
-    "messages": [
-        {
-            "id": "1",
-            "message": "this is a message 1",
-            "userId": "a"
-        },
-        {
-            "id": "2",
-            "message": "this is a message 2",
-            "userId": "b"
-        },
-        {
-            "id": "3",
-            "message": "this is a message 3",
-            "userId": "a"
-        },
-        {
-            "id": "4",
-            "message": "this is a message 4",
-            "userId": "d"
-        }
-    ]
+  "users": [
+    {
+      "id": "a",
+      "name": "michael"
+    },
+    {
+      "id": "b",
+      "name": "david"
+    },
+    {
+      "id": "c",
+      "name": "jack"
+    },
+    {
+      "id": "d",
+      "name": "john"
+    }
+  ],
+  "messages": [
+    {
+      "id": "1",
+      "message": "this is a message 1",
+      "userId": "a"
+    },
+    {
+      "id": "2",
+      "message": "this is a message 2",
+      "userId": "b"
+    },
+    {
+      "id": "3",
+      "message": "this is a message 3",
+      "userId": "a"
+    },
+    {
+      "id": "4",
+      "message": "this is a message 4",
+      "userId": "d"
+    }
+  ]
 }

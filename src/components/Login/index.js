@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
-import useForm from '../../hooks/useForm';
+import { useForm } from '../../hooks';
 import './Login.scss';
 
 const Login = (props) => {
