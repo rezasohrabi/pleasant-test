@@ -5,15 +5,19 @@ const useCopyToClipboard = (textToCopy, successMessage = 'Successfull') => {
 
   useEffect(() => {
     if (doCopy) {
-      navigator.clipboard
-        .writeText(textToCopy)
-        .then(() => {
-          alert(successMessage);
-          setDoCopy(false);
-        })
-        .catch((error) => {
-          console.error('Error occured while copying to clipboard');
-        });
+      if (!navigator.clipboard) {
+        console.error('Error: navigator is undefined');
+      } else {
+        navigator.clipboard
+          .writeText(textToCopy)
+          .then(() => {
+            alert(successMessage);
+            setDoCopy(false);
+          })
+          .catch((error) => {
+            console.error('Error occured while copying to clipboard');
+          });
+      }
     }
   }, [doCopy]);
 

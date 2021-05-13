@@ -11,7 +11,7 @@ beforeEach(() => {
 
 test('Button renders with correct text', () => {
   const buttonRef = getByTestId('button');
-  expect(buttonRef.textContent).toBe('save in storage');
+  expect(buttonRef.textContent).toBe('save in storage and copy to clipboard!');
 });
 
 test('Input renders without error', () => {
