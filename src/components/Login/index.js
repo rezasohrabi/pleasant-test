@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import React from 'react';
 import { useForm } from '../../hooks';
+import useToastContext from '../../toast/useToastContext';
 import './Login.scss';
 
 const Login = (props) => {
+  const addToast = useToastContext();
   const login = () => {
-    alert('wellcome to appp');
+    addToast('wellcome to your appp bro');
   };
 
   const validate = (values) => {
