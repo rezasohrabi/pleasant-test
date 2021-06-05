@@ -1,3 +1,2 @@
-export const findByAttr = (component, attr) => {
-  return component.find(`[data-test='${attr}']`);
-};
+export { findByAttr } from './findByAttr';
+export { filterByQuery } from './filterByQuery';
