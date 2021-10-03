@@ -1,0 +1,27 @@
+.image-slider {
+  .button {
+  }
+  .button.active {
+    background-color: rebeccapurple;
+    color: wheat;
+  }
+  .slide {
+  }
+  .customer-enter {
+    opacity: 0.01;
+  }
+
+  .customer-enter.customer-enter-active {
+    opacity: 1;
+    transition: 500ms;
+  }
+
+  .customer-exit {
+    opacity: 1;
+  }
+
+  .customer-exit.customer-exit-active {
+    opacity: 0.01;
+    transition: 1200ms;
+  }
+}
