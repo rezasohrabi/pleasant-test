@@ -1,0 +1,73 @@
+.fade-enter {
+  transform: translateX(110%);
+}
+.fade-enter-active {
+  transform: translateX(50%);
+  transition: opacity 3000ms linear 1000ms, transform 3000ms ease-in-out 1000ms;
+}
+.fade-enter-done {
+  transform: translateX(0%);
+}
+.fade-exit {
+  transform: translateX(0%);
+}
+.fade-exit-active {
+  transition: all 300ms;
+}
+.fade-exit-done {
+  transform: translateX(100%);
+}
+
+.title-screen--appear {
+  transform: scale(0.1);
+}
+.title-screen--appear-active {
+  transform: scale(1);
+  transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.title-screen--exit-active {
+  transform: rotateY(90deg) rotateX(45deg);
+  transition: transform 0.8s cubic-bezier(0.5, 0, 0.75, 0);
+}
+
+/* slide enter */
+.slide-enter {
+  opacity: 0;
+  transform: scale(0.97) translateY(5px);
+  z-index: 1;
+}
+.slide-enter.slide-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: opacity 3000ms linear 1000ms, transform 3000ms ease-in-out 1000ms;
+}
+
+/* slide exit */
+.slide-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+.slide-exit.slide-exit-active {
+  opacity: 0;
+  transform: scale(0.97) translateY(5px);
+  transition: opacity 1500ms linear, transform 1500ms ease-out;
+}
+.slide-exit-done {
+  opacity: 0;
+}
+
+.toast {
+  color: white;
+  background: #57409f;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  padding: 15px 30px;
+  background-color: rgb(227, 252, 239);
+  box-shadow: rgba(0, 0, 0, 0.176) 0px 3px 8px;
+  color: rgb(0, 102, 68);
+  display: flex;
+  margin-bottom: 8px;
+  width: 360px;
+  border-radius: 4px;
+}

@@ -1,20 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import ToastContext from './ToastContext';
 import './styles.scss';
+import Toast from './Toast';
 
 export default function ToastContextProvider({ children }) {
   const [toasts, setToasts] = useState([]);
-
-  useEffect(() => {
-    if (toasts.length > 0) {
-      const timer = setTimeout(() => {
-        setToasts((toasts) => toasts.slice(1));
-      }, 1500);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [toasts]);
 
   const addToast = useCallback(
     (toast) => {
@@ -28,9 +18,7 @@ export default function ToastContextProvider({ children }) {
       {children}
       <div className='toasts-wrapper'>
         {toasts.map((toast) => (
-          <div className='toast' key={toast}>
-            {toast}
-          </div>
+          <Toast toast={toast} />
         ))}
       </div>
     </ToastContext.Provider>
