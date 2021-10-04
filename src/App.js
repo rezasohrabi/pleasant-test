@@ -1,6 +1,7 @@
 import Header from './components/Header';
 import Login from './components/Login';
 import SaveToLocalstorage from './components/SaveToLocalstorage';
+import Carousel from './Carousel';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <SaveToLocalstorage />
       <hr />
       <Login />
+      <Carousel />
     </div>
   );
 }
