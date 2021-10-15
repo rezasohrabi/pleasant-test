@@ -6,6 +6,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.scss';
+import { Dropdown } from './components/Dropdown';
 
 function App() {
   var settings = {
@@ -43,6 +44,16 @@ function App() {
           <h3>6</h3>
         </div>
       </Slider>
+      <Dropdown>
+        <ul>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+        </ul>
+      </Dropdown>
     </div>
   );
 }
