@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import './styles.scss';
 
 const images = [
@@ -22,13 +22,12 @@ const Carousel = (props) => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 2000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(() => {
+    //   handleNext();
+    // }, 2000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   });
 
   return (
@@ -46,19 +45,17 @@ const Carousel = (props) => {
         );
       })}
       <button onClick={handleNext}>next</button>
-      <TransitionGroup>
-        {images.map((url, index) => (
-          <CSSTransition
-            key={url}
-            classNames='customer'
-            timeout={{ enter: 500, exit: 1200 }}
-          >
-            <div className={index === current ? 'slide active' : 'slide'}>
-              {index === current && <img src={url} alt='' />}
-            </div>
-          </CSSTransition>
-        ))}
-      </TransitionGroup>
+      {images.map((url, index) => (
+        <CSSTransition
+          key={url}
+          classNames='customer'
+          timeout={{ enter: 500, exit: 1200 }}
+        >
+          <div className={index === current ? 'slide active' : 'slide'}>
+            {index === current && <img src={url} alt='' />}
+          </div>
+        </CSSTransition>
+      ))}
     </section>
   );
 };
