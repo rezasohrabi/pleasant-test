@@ -6,7 +6,19 @@ const useCopyToClipboard = (textToCopy, successMessage = 'Successfull') => {
   useEffect(() => {
     if (doCopy) {
       if (!navigator.clipboard) {
-        console.error('Error: navigator is undefined');
+        const textarea = document.createElement('textarea');
+        textarea.value = textToCopy;
+        textarea.style.top = '0';
+        textarea.style.left = '0';
+        textarea.style.position = 'fixed';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+          const success = document.execCommand('copy');
+        } catch (error) {
+          console.log('fallback', error);
+        }
       } else {
         navigator.clipboard
           .writeText(textToCopy)
