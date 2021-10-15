@@ -1,3 +1,17 @@
 .Dropdown1 {
   margin-top: 60px;
 }
+.Dropdown2 {
+  position: relative;
+  &__button {
+  }
+  &__content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rebeccapurple;
+    border-radius: 5px;
+    padding: 10px;
+    color: #fff;
+  }
+}

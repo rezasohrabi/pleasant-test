@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './App.scss';
-import { Dropdown } from './components/Dropdown';
+import { Dropdown, Dropdown2 } from './components/Dropdown';
 
 function App() {
   var settings = {
@@ -54,6 +54,69 @@ function App() {
           <li>this is an item</li>
         </ul>
       </Dropdown>
+      <Dropdown2
+        toggler={
+          <div>
+            <div>this is title</div>
+            <div>this is desc</div>
+          </div>
+        }
+      >
+        <div>
+          Don’t get discouraged when you read this section’s title and think:
+          “This is easy.” I know it’s “easy” — on its face. The lesson here is
+          adding a property to the child element(s) using React.cloneElement().
+          To show you how this works, we’ll revisit the first example in this
+          article, about repeated characters. You will not be repeating any
+          characters, though — instead, you’ll define a custom CSS style that is
+          added to the child using the React.cloneElement() function.
+        </div>
+      </Dropdown2>
+      <div>
+        Don’t get discouraged when you read this section’s title and think:
+        “This is easy.” I know it’s “easy” — on its face. The lesson here is
+        adding a property to the child element(s) using React.cloneElement(). To
+        show you how this works, we’ll revisit the first example in this
+        article, about repeated characters. You will not be repeating any
+        characters, though — instead, you’ll define a custom CSS style that is
+        added to the child using the React.cloneElement() function.
+      </div>
+      <Dropdown2
+        toggler={
+          <div>
+            <div>this is title</div>
+            <div>this is desc</div>
+          </div>
+        }
+      >
+        <ul>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+          <li>this is an item</li>
+        </ul>
+      </Dropdown2>
+      <div>
+        Don’t get discouraged when you read this section’s title and think:
+        “This is easy.” I know it’s “easy” — on its face. The lesson here is
+        adding a property to the child element(s) using React.cloneElement(). To
+        show you how this works, we’ll revisit the first example in this
+        article, about repeated characters. You will not be repeating any
+        characters, though — instead, you’ll define a custom CSS style that is
+        added to the child using the React.cloneElement() function.
+      </div>
     </div>
   );
 }
