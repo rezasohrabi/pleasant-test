@@ -1,0 +1,15 @@
+$colors: (
+  primary: #264653,
+  secondary: #f4a261,
+  error: #e76f51,
+  success: #2a9d8f,
+);
+
+@each $key, $color in $colors {
+  .button-#{$key} {
+    background-color: $color;
+  }
+  .button-#{$key}:hover {
+    background-color: darken($color, 10%);
+  }
+}
