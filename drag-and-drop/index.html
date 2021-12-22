@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <script src="dist/app.js" defer></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <template id="add-todo-form">
+      <form>
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control">
+            <input
+              class="input"
+              id="username-input"
+              type="text"
+              placeholder="username"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Todo</label>
+          <div class="control">
+            <input
+              class="input"
+              id="todo-input"
+              type="text"
+              placeholder="todo"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <label class="checkbox">
+              <input type="checkbox" id="is-completed-input" />
+              Is note completed?
+            </label>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" is="add-button">ADD</button>
+          </div>
+          <div class="control">
+            <button class="button is-link is-light">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </template>
+    <template id="todo-item">
+      <li>
+        <h2></h2>
+        <h3></h3>
+        <p></p>
+      </li>
+    </template>
+    <template id="todo-list">
+      <section id="todo-list-section">
+        <header>
+          <h2></h2>
+        </header>
+        <ul></ul>
+      </section>
+    </template>
+  </body>
+</html>
