@@ -1,3 +1,18 @@
+function autobind(
+  _target: any,
+  _methodName: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjDescriptor;
+}
 class TodoForm {
   templateElement: HTMLTemplateElement;
   appElement: HTMLDivElement;
@@ -30,13 +45,39 @@ class TodoForm {
     this.attach();
   }
 
+  gatherUserInput(): [string, string, boolean] | void {
+    if (
+      this.usernameInputElement.value === '' ||
+      this.todoInputElement.value === ''
+    ) {
+      alert('Invalid value!');
+      return;
+    }
+    return [
+      this.usernameInputElement.value,
+      this.todoInputElement.value,
+      this.completedCheckboxElement.checked,
+    ];
+  }
+
+  @autobind
   submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.usernameInputElement.value, this.todoInputElement.value);
+    const input = this.gatherUserInput();
+    if (Array.isArray(input)) {
+      console.log(input);
+      this.clearInputs();
+    }
+  }
+
+  clearInputs() {
+    this.usernameInputElement.value = '';
+    this.todoInputElement.value = '';
+    this.completedCheckboxElement.checked = false;
   }
 
   configureSubmit() {
-    this.element.addEventListener('submit', this.submitHandler.bind(this));
+    this.element.addEventListener('submit', this.submitHandler);
   }
 
   attach() {
