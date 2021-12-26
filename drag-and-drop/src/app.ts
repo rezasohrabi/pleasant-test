@@ -23,9 +23,25 @@ function validate(validatableInput: Validatable) {
   return isValid;
 }
 
+enum TodoStatus {
+  Active,
+  Completed,
+}
+
+class Todo {
+  constructor(
+    public id: string,
+    public username: string,
+    public todo: string,
+    public completed: boolean,
+    public status: TodoStatus
+  ) {}
+}
+type Listener = (todos: Todo[]) => void;
+
 class TodoState {
-  listeners: any[] = [];
-  todos: any[] = [];
+  listeners: Listener[] = [];
+  todos: Todo[] = [];
   static instance: TodoState;
 
   static getInstance(): TodoState {
@@ -35,13 +51,20 @@ class TodoState {
     return new TodoState();
   }
 
-  addListener(listenerFn: Function): void {
+  addListener(listenerFn: Listener): void {
     this.listeners.push(listenerFn);
   }
 
   addTodo(username: string, todo: string, completed: boolean): void {
-    const newTodo = { username, todo, completed };
-    this.todos.push(newTodo);
+    this.todos.push(
+      new Todo(
+        Math.random().toString(),
+        username,
+        todo,
+        completed,
+        TodoStatus.Active
+      )
+    );
     for (const listenerFn of this.listeners) {
       listenerFn(this.todos.slice());
     }
@@ -155,7 +178,7 @@ class TodoList {
   templateElement: HTMLTemplateElement;
   appElement: HTMLDivElement;
   element: HTMLElement;
-  todos: any[] = [];
+  todos: Todo[] = [];
 
   constructor(private type: 'active' | 'completed') {
     this.templateElement = document.getElementById(
@@ -170,7 +193,7 @@ class TodoList {
     this.element.id = `${this.type}-todos`;
     this.attach();
     this.renderContent();
-    todoState.addListener((todos: any[]) => {
+    todoState.addListener((todos: Todo[]) => {
       this.todos = todos;
       this.renderTodos();
     });
