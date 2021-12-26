@@ -23,6 +23,33 @@ function validate(validatableInput: Validatable) {
   return isValid;
 }
 
+class TodoState {
+  listeners: any[] = [];
+  todos: any[] = [];
+  static instance: TodoState;
+
+  static getInstance(): TodoState {
+    if (this.instance) {
+      return this.instance;
+    }
+    return new TodoState();
+  }
+
+  addListener(listenerFn: Function): void {
+    this.listeners.push(listenerFn);
+  }
+
+  addTodo(username: string, todo: string, completed: boolean): void {
+    const newTodo = { username, todo, completed };
+    this.todos.push(newTodo);
+    for (const listenerFn of this.listeners) {
+      listenerFn(this.todos.slice());
+    }
+  }
+}
+
+const todoState = TodoState.getInstance();
+
 function autobind(
   _target: any,
   _methodName: string,
@@ -101,9 +128,10 @@ class TodoForm {
   @autobind
   submitHandler(event: Event) {
     event.preventDefault();
-    const input = this.gatherUserInput();
-    if (Array.isArray(input)) {
-      console.log(input);
+    const userInput = this.gatherUserInput();
+    if (Array.isArray(userInput)) {
+      const [username, todo, completed] = userInput;
+      todoState.addTodo(username, todo, completed);
       this.clearInputs();
     }
   }
@@ -127,6 +155,7 @@ class TodoList {
   templateElement: HTMLTemplateElement;
   appElement: HTMLDivElement;
   element: HTMLElement;
+  todos: any[] = [];
 
   constructor(private type: 'active' | 'completed') {
     this.templateElement = document.getElementById(
@@ -141,6 +170,19 @@ class TodoList {
     this.element.id = `${this.type}-todos`;
     this.attach();
     this.renderContent();
+    todoState.addListener((todos: any[]) => {
+      this.todos = todos;
+      this.renderTodos();
+    });
+  }
+
+  private renderTodos() {
+    const ul = this.element.querySelector('ul') as HTMLUListElement;
+    for (const todo of this.todos) {
+      const item = document.createElement('li');
+      item.textContent = todo.username;
+      ul.appendChild(item);
+    }
   }
 
   private attach() {
