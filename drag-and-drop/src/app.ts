@@ -62,7 +62,7 @@ class TodoState {
         username,
         todo,
         completed,
-        TodoStatus.Active
+        completed ? TodoStatus.Completed : TodoStatus.Active
       )
     );
     for (const listenerFn of this.listeners) {
@@ -194,13 +194,20 @@ class TodoList {
     this.attach();
     this.renderContent();
     todoState.addListener((todos: Todo[]) => {
-      this.todos = todos;
+      const filteredTodos = todos.filter((todo) => {
+        if (this.type === 'active') {
+          return todo.status === TodoStatus.Active;
+        }
+        return todo.status === TodoStatus.Completed;
+      });
+      this.todos = filteredTodos;
       this.renderTodos();
     });
   }
 
   private renderTodos() {
     const ul = this.element.querySelector('ul') as HTMLUListElement;
+    ul.innerHTML = '';
     for (const todo of this.todos) {
       const item = document.createElement('li');
       item.textContent = todo.username;
@@ -215,7 +222,7 @@ class TodoList {
   private renderContent() {
     this.element.querySelector('ul')!.id = `${this.type}-todos-list`;
     this.element.querySelector('h2')!.textContent =
-      this.type.toUpperCase() + 'TODOS';
+      this.type.toUpperCase() + ' TODOS';
   }
 }
 
