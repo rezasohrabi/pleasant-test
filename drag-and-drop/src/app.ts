@@ -1,3 +1,13 @@
+interface Draggable {
+  dragStartHandler(event: DragEvent): void;
+  dragEndHandler(event: DragEvent): void;
+}
+
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void;
+  dragLeavHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+}
 interface Validatable {
   value: string;
   required?: boolean;
@@ -241,7 +251,10 @@ class TodoList extends Component<HTMLDivElement, HTMLElement> {
   }
 }
 
-class TodoItem extends Component<HTMLUListElement, HTMLLIElement> {
+class TodoItem
+  extends Component<HTMLUListElement, HTMLLIElement>
+  implements Draggable
+{
   private todo: Todo;
 
   constructor(appId: string, todo: Todo) {
@@ -250,7 +263,21 @@ class TodoItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.configure();
     this.renderContent();
   }
-  configure(): void {}
+
+  @autobind
+  dragStartHandler(event: DragEvent): void {
+    console.log(event);
+  }
+
+  @autobind
+  dragEndHandler(event: DragEvent): void {
+    console.log(event);
+  }
+
+  configure(): void {
+    this.element.addEventListener('dragstart', this.dragStartHandler);
+    this.element.addEventListener('dragend', this.dragEndHandler);
+  }
 
   renderContent(): void {
     this.element.querySelector('h2')!.textContent = this.todo.todo;
