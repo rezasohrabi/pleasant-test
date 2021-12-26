@@ -5,7 +5,7 @@ interface Draggable {
 
 interface DragTarget {
   dragOverHandler(event: DragEvent): void;
-  dragLeavHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
   dropHandler(event: DragEvent): void;
 }
 interface Validatable {
@@ -73,15 +73,26 @@ class TodoState extends State<Todo> {
   }
 
   addTodo(username: string, todo: string, completed: boolean): void {
-    this.todos.push(
-      new Todo(
-        Math.random().toString(),
-        username,
-        todo,
-        completed,
-        completed ? TodoStatus.Completed : TodoStatus.Active
-      )
+    const newTodo = new Todo(
+      Math.random().toString(),
+      username,
+      todo,
+      completed,
+      completed ? TodoStatus.Completed : TodoStatus.Active
     );
+    this.todos.push(newTodo);
+    this.updateListeners();
+  }
+
+  moveTodo(todoId: string, newStatus: TodoStatus) {
+    const todo = this.todos.find((todo) => todo.id === todoId);
+    if (todo && todo.status !== newStatus) {
+      todo.status = newStatus;
+      this.updateListeners();
+    }
+  }
+
+  updateListeners() {
     for (const listenerFn of this.listeners) {
       listenerFn(this.todos.slice());
     }
@@ -213,7 +224,10 @@ class TodoForm extends Component<HTMLDivElement, HTMLFormElement> {
   renderContent(): void {}
 }
 
-class TodoList extends Component<HTMLDivElement, HTMLElement> {
+class TodoList
+  extends Component<HTMLDivElement, HTMLElement>
+  implements DragTarget
+{
   todos: Todo[];
 
   constructor(private type: 'active' | 'completed') {
@@ -223,7 +237,35 @@ class TodoList extends Component<HTMLDivElement, HTMLElement> {
     this.renderContent();
   }
 
+  @autobind
+  dragOverHandler(event: DragEvent): void {
+    if (event.dataTransfer && event.dataTransfer.types[0] === 'text/plain') {
+      event.preventDefault();
+      const listElement = this.element.querySelector('ul')!;
+      listElement.classList.add('droppable');
+    }
+  }
+
+  @autobind
+  dragLeaveHandler(_: DragEvent): void {
+    const listElement = this.element.querySelector('ul')!;
+    listElement.classList.remove('droppable');
+  }
+
+  @autobind
+  dropHandler(event: DragEvent): void {
+    const todoId = event.dataTransfer!.getData('text/plain');
+    todoState.moveTodo(
+      todoId,
+      this.type === 'active' ? TodoStatus.Active : TodoStatus.Completed
+    );
+  }
+
   configure(): void {
+    this.element.addEventListener('dragover', this.dragOverHandler);
+    this.element.addEventListener('dragleave', this.dragLeaveHandler);
+    this.element.addEventListener('drop', this.dropHandler);
+
     todoState.addListener((todos: Todo[]) => {
       const filteredTodos = todos.filter((todo) => {
         if (this.type === 'active') {
@@ -266,12 +308,13 @@ class TodoItem
 
   @autobind
   dragStartHandler(event: DragEvent): void {
-    console.log(event);
+    event.dataTransfer?.setData('text/plain', this.todo.id);
+    event.dataTransfer!.effectAllowed = 'move';
   }
 
   @autobind
-  dragEndHandler(event: DragEvent): void {
-    console.log(event);
+  dragEndHandler(_: DragEvent): void {
+    console.log('Drag End!');
   }
 
   configure(): void {

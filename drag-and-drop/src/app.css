@@ -1,0 +1,7 @@
+.droppable {
+  background-color: #ededed;
+}
+ul {
+  padding: 15px;
+  min-height: 40px;
+}
