@@ -1,3 +1,28 @@
+interface Validatable {
+  value: string;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+}
+
+function validate(validatableInput: Validatable) {
+  let isValid = true;
+  if (validatableInput.required) {
+    isValid = isValid && validatableInput.value.trim().length > 0;
+  }
+  if (validatableInput.minLength) {
+    isValid =
+      isValid &&
+      validatableInput.value.trim().length >= validatableInput.minLength;
+  }
+  if (validatableInput.maxLength) {
+    isValid =
+      isValid &&
+      validatableInput.value.trim().length <= validatableInput.maxLength;
+  }
+  return isValid;
+}
+
 function autobind(
   _target: any,
   _methodName: string,
@@ -46,16 +71,29 @@ class TodoForm {
   }
 
   gatherUserInput(): [string, string, boolean] | void {
-    if (
-      this.usernameInputElement.value === '' ||
-      this.todoInputElement.value === ''
-    ) {
-      alert('Invalid value!');
+    const enteredUsername = this.usernameInputElement.value;
+    const enteredTodo = this.todoInputElement.value;
+    const usernameValidatable: Validatable = {
+      value: this.usernameInputElement.value,
+      minLength: 2,
+      maxLength: 50,
+    };
+    const todoValidatable: Validatable = {
+      value: this.todoInputElement.value,
+      minLength: 2,
+      maxLength: 500,
+    };
+
+    if (!validate(usernameValidatable)) {
+      alert('Invalid username, try again!');
       return;
     }
+    if (!validate(todoValidatable)) {
+      alert('Invalid todo, try again!');
+    }
     return [
-      this.usernameInputElement.value,
-      this.todoInputElement.value,
+      enteredTodo,
+      enteredUsername,
       this.completedCheckboxElement.checked,
     ];
   }
