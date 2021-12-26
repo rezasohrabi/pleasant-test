@@ -37,22 +37,29 @@ class Todo {
     public status: TodoStatus
   ) {}
 }
-type Listener = (todos: Todo[]) => void;
+type Listener<T> = (todos: T[]) => void;
 
-class TodoState {
-  listeners: Listener[] = [];
+class State<T> {
+  protected listeners: Listener<T>[] = [];
+
+  addListener(listenerFn: Listener<T>): void {
+    this.listeners.push(listenerFn);
+  }
+}
+
+class TodoState extends State<Todo> {
   todos: Todo[] = [];
   static instance: TodoState;
+
+  private constructor() {
+    super();
+  }
 
   static getInstance(): TodoState {
     if (this.instance) {
       return this.instance;
     }
     return new TodoState();
-  }
-
-  addListener(listenerFn: Listener): void {
-    this.listeners.push(listenerFn);
   }
 
   addTodo(username: string, todo: string, completed: boolean): void {
@@ -73,6 +80,43 @@ class TodoState {
 
 const todoState = TodoState.getInstance();
 
+abstract class Component<T extends HTMLElement, U extends HTMLElement> {
+  templateElement: HTMLTemplateElement;
+  appElement: T;
+  element: U;
+  constructor(
+    templateId: string,
+    appId: string,
+    insertAtStart: boolean,
+    elementId?: string
+  ) {
+    this.templateElement = document.getElementById(
+      templateId
+    ) as HTMLTemplateElement;
+    this.appElement = document.getElementById(appId) as T;
+    const importedNode = document.importNode(
+      this.templateElement.content,
+      true
+    );
+    this.element = importedNode.firstElementChild as U;
+
+    if (elementId) {
+      this.element.id = elementId;
+    }
+    this.attach(insertAtStart);
+  }
+
+  attach(insertAtStart: boolean) {
+    this.appElement.insertAdjacentElement(
+      insertAtStart ? 'afterbegin' : 'beforeend',
+      this.element
+    );
+  }
+
+  abstract configure(): void;
+  abstract renderContent(): void;
+}
+
 function autobind(
   _target: any,
   _methodName: string,
@@ -88,25 +132,13 @@ function autobind(
   };
   return adjDescriptor;
 }
-class TodoForm {
-  templateElement: HTMLTemplateElement;
-  appElement: HTMLDivElement;
-  element: HTMLElement;
+class TodoForm extends Component<HTMLDivElement, HTMLFormElement> {
   usernameInputElement: HTMLInputElement;
   todoInputElement: HTMLInputElement;
   completedCheckboxElement: HTMLInputElement;
 
   constructor() {
-    this.templateElement = document.getElementById(
-      'add-todo-form'
-    ) as HTMLTemplateElement;
-    this.appElement = document.getElementById('app') as HTMLDivElement;
-    const importedNode = document.importNode(
-      this.templateElement.content,
-      true
-    );
-    this.element = importedNode.firstElementChild as HTMLElement;
-    this.element.id = 'add-todo-input';
+    super('add-todo-form', 'app', true, 'add-todo-input');
     this.usernameInputElement = this.element.querySelector(
       '#username-input'
     ) as HTMLInputElement;
@@ -116,8 +148,7 @@ class TodoForm {
     this.completedCheckboxElement = this.element.querySelector(
       '#is-completed-input'
     ) as HTMLInputElement;
-    this.configureSubmit();
-    this.attach();
+    this.configure();
   }
 
   gatherUserInput(): [string, string, boolean] | void {
@@ -165,34 +196,24 @@ class TodoForm {
     this.completedCheckboxElement.checked = false;
   }
 
-  configureSubmit() {
+  configure(): void {
     this.element.addEventListener('submit', this.submitHandler);
   }
 
-  attach() {
-    this.appElement.insertAdjacentElement('afterbegin', this.element);
-  }
+  renderContent(): void {}
 }
 
-class TodoList {
-  templateElement: HTMLTemplateElement;
-  appElement: HTMLDivElement;
-  element: HTMLElement;
-  todos: Todo[] = [];
+class TodoList extends Component<HTMLDivElement, HTMLElement> {
+  todos: Todo[];
 
   constructor(private type: 'active' | 'completed') {
-    this.templateElement = document.getElementById(
-      'todo-list'
-    ) as HTMLTemplateElement;
-    this.appElement = document.getElementById('app') as HTMLDivElement;
-    const importedNode = document.importNode(
-      this.templateElement.content,
-      true
-    );
-    this.element = importedNode.firstElementChild as HTMLElement;
-    this.element.id = `${this.type}-todos`;
-    this.attach();
+    super('todo-list', 'app', false, `${type}-todos`);
+    this.todos = [];
+    this.configure();
     this.renderContent();
+  }
+
+  configure(): void {
     todoState.addListener((todos: Todo[]) => {
       const filteredTodos = todos.filter((todo) => {
         if (this.type === 'active') {
@@ -205,6 +226,12 @@ class TodoList {
     });
   }
 
+  renderContent(): void {
+    this.element.querySelector('ul')!.id = `${this.type}-todos-list`;
+    this.element.querySelector('h2')!.textContent =
+      this.type.toUpperCase() + ' TODOS';
+  }
+
   private renderTodos() {
     const ul = this.element.querySelector('ul') as HTMLUListElement;
     ul.innerHTML = '';
@@ -213,16 +240,6 @@ class TodoList {
       item.textContent = todo.username;
       ul.appendChild(item);
     }
-  }
-
-  private attach() {
-    this.appElement.insertAdjacentElement('beforeend', this.element);
-  }
-
-  private renderContent() {
-    this.element.querySelector('ul')!.id = `${this.type}-todos-list`;
-    this.element.querySelector('h2')!.textContent =
-      this.type.toUpperCase() + ' TODOS';
   }
 }
 
