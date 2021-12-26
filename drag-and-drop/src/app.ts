@@ -236,10 +236,26 @@ class TodoList extends Component<HTMLDivElement, HTMLElement> {
     const ul = this.element.querySelector('ul') as HTMLUListElement;
     ul.innerHTML = '';
     for (const todo of this.todos) {
-      const item = document.createElement('li');
-      item.textContent = todo.username;
-      ul.appendChild(item);
+      new TodoItem(this.element.querySelector('ul')!.id, todo);
     }
+  }
+}
+
+class TodoItem extends Component<HTMLUListElement, HTMLLIElement> {
+  private todo: Todo;
+
+  constructor(appId: string, todo: Todo) {
+    super('todo-item', appId, false, todo.id);
+    this.todo = todo;
+    this.configure();
+    this.renderContent();
+  }
+  configure(): void {}
+
+  renderContent(): void {
+    this.element.querySelector('h2')!.textContent = this.todo.todo;
+    this.element.querySelector('h3')!.textContent = this.todo.username;
+    this.element.querySelector('p')!.textContent = this.todo.status.toString();
   }
 }
 
